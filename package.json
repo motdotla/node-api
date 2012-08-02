@@ -1,0 +1,13 @@
+{
+  "name": "node-api",
+  "version": "0.0.1",
+  "author": "scottmotte",
+  "main": "app.coffee",
+  "dependencies": {
+    "coffee-script"     : "latest",
+    "express"           : "latest",
+    "mocha"             : "latest",
+    "request"           : "latest",
+    "should"            : "latest"
+  }
+}
