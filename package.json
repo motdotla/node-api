@@ -4,9 +4,11 @@
   "author": "scottmotte",
   "main": "app.coffee",
   "dependencies": {
+    "bcrypt"            : "latest",
     "coffee-script"     : "latest",
     "express"           : "latest",
     "mocha"             : "latest",
+    "mongoose"          : "latest",
     "request"           : "latest",
     "should"            : "latest"
   }

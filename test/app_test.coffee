@@ -1,5 +1,6 @@
 request = require 'request'
 should  = require 'should'
+Person  = require('./../app/models/person')
 
 describe "GET /api/test.json", ->
   url     = "http://localhost:3000/api/test.json"
@@ -45,8 +46,36 @@ describe "GET /api/test/authentication.json", ->
       done()
 
   it "does not authenticate with invalid api token", (done) ->
-    request.get {url: "http://INVALIDTOKEN:@localhost:3000/api/test/authentication.json"}, (err, res) ->
+    request.get {url: "http://INVALIDTOKEN:@localhost:3000/api/test/authentication.json"}, (e, res) ->
       json = JSON.parse res.body
+      json.success.should.equal(false)
+      done()
+
+describe "POST /api/people/create.json", ->
+  url = "http://localhost:3000/api/people/create.json"
+  json = {email: "scott@scottmotte.com", password: "password"}
+
+  beforeEach (done) ->
+    Person.collection.remove (e) ->
+      done()
+
+  it "successfully creates", (done) ->
+    request.post {url: url, json: json}, (e, res) ->
+      json = res.body
+      json.success.should.equal(true)
+      done()
+
+  it "does not create if missing email", (done) ->
+    json.email = ""
+    request.post {url: url, json: json}, (e, res) ->
+      json = res.body
+      json.success.should.equal(false)
+      done()
+
+  it "does not create if missing password", (done) ->
+    json.password = ""
+    request.post {url: url, json: json}, (e, res) ->
+      json = res.body
       json.success.should.equal(false)
       done()
 

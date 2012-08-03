@@ -1,5 +1,6 @@
 express   = require("express")
 app       = express()
+Person    = require('./app/models/person')
 
 app.configure ->
   app.use express.bodyParser()
@@ -38,5 +39,13 @@ app.post "/api/sessions.json", (req, res) ->
     res.json { success: true, token: VALID_API_TOKEN }
   else
     res.json { success: false, error: { message: "Authentication failed." } }
+
+app.post "/api/people/create.json", (req, res) ->
+  person = new Person()
+  person.email    = req.body.email
+  person.password = req.body.password
+  person.save (e) ->
+    return res.json { success: false, error: {message: e} } if !!e
+    res.json { success: true }
 
 app.listen 3000
